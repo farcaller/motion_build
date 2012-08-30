@@ -33,6 +33,7 @@ module Motion ; module Build ; module Rules
 
       dependencies.concat(compile_rules)
 
+
       init_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'init.mm.erb'), nil) do |rule, ctx|
         rule.context = { init_functions: compile_rules.map { |r| r.init_func_name } }
       end
@@ -42,6 +43,13 @@ module Motion ; module Build ; module Rules
 
       dependencies << compile_init_file
 
+
+      main_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'main.mm.erb'), project.config)
+
+      compile_main_file = CompileCPPSourceRule.new(project, main_file.destination)
+      compile_main_file.dependencies << main_file
+
+      dependencies << compile_main_file
     end
 
     def bs_files
