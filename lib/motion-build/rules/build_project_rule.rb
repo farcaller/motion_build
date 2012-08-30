@@ -27,9 +27,20 @@ module Motion ; module Build ; module Rules
 
     private
     def setup_dependencies
-      dependencies.concat(project.sources.map do |src|
+      compile_rules = project.sources.map do |src|
         CompileRubySourceRule.new(project, src, archs: project.config[:build_architectures], bridge_support_files: bs_files)
-      end)
+      end
+
+      dependencies.concat(compile_rules)
+
+      init_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'init.mm.erb'), nil) do |rule, ctx|
+        rule.context = {
+          init_functions: compile_rules.map { |r| r.init_func_name }
+        }
+      end
+
+      dependencies << init_file
+
     end
 
     def bs_files
