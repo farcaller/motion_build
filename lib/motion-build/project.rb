@@ -23,6 +23,14 @@ module Motion ; module Build
       @config[:base_sdk] = '6.0'
       @config[:build_architectures] = ['i386']
       @config[:build_platform] = 'iPhoneSimulator'
+      @config[:build_cflags] = [
+        '-arch', @config[:build_architectures].first,
+        '-isysroot',
+        '/Applications/Xcode45-DP4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk',
+        '-miphoneos-version-min=6.0',
+        '-F/Applications/Xcode45-DP4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk/System/Library/Frameworks',
+        '-fexceptions', '-fblocks', '-fobjc-legacy-dispatch', '-fobjc-abi-version=2'
+      ]
 
       FileUtils.mkdir_p(@config[:build_dir]) unless File.exists?(@config[:build_dir])
 
