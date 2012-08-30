@@ -1,0 +1,13 @@
+require 'motion_build/rule'
+require 'motion_build/file_rule'
+
+require 'motion_build/rules/emit_llvm_bitcode_rule'
+require 'motion_build/rules/parse_llvm_bitcode_rule'
+require 'motion_build/rules/assemble_source_rule'
+require 'motion_build/rules/lipo_rule'
+require 'motion_build/rules/copy_file_rule'
+require 'motion_build/rules/unlink_file_rule'
+require 'motion_build/rules/compile_ruby_source_rule'
+require 'motion_build/rules/build_project_rule'
+require 'motion_build/rules/compile_erb_file_rule'
+require 'motion_build/rules/compile_cpp_source_rule'

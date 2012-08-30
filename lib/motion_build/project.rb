@@ -1,4 +1,4 @@
-require 'motion-build/builder'
+require 'motion_build/builder'
 
 module Motion ; module Build
   class Project

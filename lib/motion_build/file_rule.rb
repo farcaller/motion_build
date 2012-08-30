@@ -1,4 +1,4 @@
-require 'motion-build/rule'
+require 'motion_build/rule'
 
 module Motion ; module Build
   class FileRule < Rule

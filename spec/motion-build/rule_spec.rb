@@ -1,5 +1,5 @@
-require 'motion-build/project'
-require 'motion-build/rule'
+require 'motion_build/project'
+require 'motion_build/rule'
 
 class TestRule < Motion::Build::Rule
   attr_accessor :action_runs_count

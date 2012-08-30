@@ -1,5 +1,5 @@
-require 'motion-build/project'
-require 'motion-build/rules'
+require 'motion_build/project'
+require 'motion_build/rules'
 
 KERNEL_FILE_PATH = '/Library/RubyMotion/data/6.0/iPhoneSimulator/kernel-i386.bc'
 

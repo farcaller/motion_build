@@ -1,4 +1,4 @@
-require 'motion-build/project'
+require 'motion_build/project'
 
 describe Motion::Build::Project do
   it "should have a name" do

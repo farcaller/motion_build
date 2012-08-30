@@ -1,5 +1,5 @@
-require 'motion-build/project'
-require 'motion-build/file_rule'
+require 'motion_build/project'
+require 'motion_build/file_rule'
 require 'tmpdir'
 
 class TestFileRule < Motion::Build::FileRule

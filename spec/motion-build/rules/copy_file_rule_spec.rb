@@ -1,5 +1,5 @@
-require 'motion-build/project'
-require 'motion-build/rules'
+require 'motion_build/project'
+require 'motion_build/rules'
 
 describe Motion::Build::Rules::CopyFileRule do
   before :each do
