@@ -1,5 +1,5 @@
 require 'term/ansicolor'
-require 'Open3'
+require 'open3'
 
 module Motion ; module Build
   class Builder
