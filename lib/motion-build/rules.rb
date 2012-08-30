@@ -1,0 +1,11 @@
+require 'motion-build/rule'
+require 'motion-build/file_rule'
+
+require 'motion-build/rules/emit_llvm_bitcode_rule'
+require 'motion-build/rules/parse_llvm_bitcode_rule'
+require 'motion-build/rules/assemble_source_rule'
+require 'motion-build/rules/lipo_rule'
+require 'motion-build/rules/copy_file_rule'
+require 'motion-build/rules/unlink_file_rule'
+require 'motion-build/rules/compile_ruby_source_rule'
+require 'motion-build/rules/build_project_rule'
