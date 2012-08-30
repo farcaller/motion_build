@@ -1,4 +1,4 @@
-# Motion::Build
+# MotionBuild
 
 [![Build Status](https://secure.travis-ci.org/farcaller/motion_build.png?branch=master)](http://travis-ci.org/farcaller/motion_build)
 [![Dependency Status](https://gemnasium.com/farcaller/motion_build.png)](https://gemnasium.com/farcaller/motion_build)
