@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class CompileCPPSourceRule < Motion::Build::FileRule
+  class CompileCPPSourceRule < MotionBuild::FileRule
     def input_extension
       '.mm'
     end
@@ -19,4 +19,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

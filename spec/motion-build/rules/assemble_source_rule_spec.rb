@@ -1,13 +1,13 @@
 require 'motion_build/project'
 require 'motion_build/rules'
 
-describe Motion::Build::Rules::AssembleSourceRule do
+describe MotionBuild::Rules::AssembleSourceRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
     @project.config[:source_dir] = Dir.mktmpdir
     @project.config[:build_dir] = Dir.mktmpdir
 
-    @r = Motion::Build::Rules::AssembleSourceRule.new(@project, File.join(@project.config[:source_dir], 'test.s'), arch: 'i386')
+    @r = MotionBuild::Rules::AssembleSourceRule.new(@project, File.join(@project.config[:source_dir], 'test.s'), arch: 'i386')
   end
 
   it "should input '.s' files and output '.o' files" do

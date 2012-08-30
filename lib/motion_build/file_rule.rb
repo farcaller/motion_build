@@ -1,6 +1,6 @@
 require 'motion_build/rule'
 
-module Motion ; module Build
+module MotionBuild
   class FileRule < Rule
     attr_reader :source, :destination
 
@@ -88,4 +88,4 @@ module Motion ; module Build
     end
   end
 
-end ; end
+end

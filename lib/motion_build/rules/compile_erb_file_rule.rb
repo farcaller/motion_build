@@ -1,8 +1,8 @@
 require 'erb'
 
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class CompileErbFileRule < Motion::Build::FileRule
+  class CompileErbFileRule < MotionBuild::FileRule
     attr_accessor :context
 
     def input_extension
@@ -56,4 +56,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

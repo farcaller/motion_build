@@ -1,6 +1,6 @@
 require 'motion_build/builder'
 
-module Motion ; module Build
+module MotionBuild
   class Project
     # Array of source files, required to build the project
     attr_reader :name, :config
@@ -44,4 +44,4 @@ module Motion ; module Build
       end
     end
   end
-end ; end
+end

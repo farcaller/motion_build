@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class BuildProjectRule < Motion::Build::Rule
+  class BuildProjectRule < MotionBuild::Rule
     def active?
       true
     end
@@ -73,4 +73,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

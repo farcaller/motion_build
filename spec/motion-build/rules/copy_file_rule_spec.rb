@@ -1,13 +1,13 @@
 require 'motion_build/project'
 require 'motion_build/rules'
 
-describe Motion::Build::Rules::CopyFileRule do
+describe MotionBuild::Rules::CopyFileRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
     @project.config[:source_dir] = Dir.mktmpdir
     @project.config[:build_dir] = Dir.mktmpdir
 
-    @r = Motion::Build::Rules::CopyFileRule.new(@project, 'hello', 'world')
+    @r = MotionBuild::Rules::CopyFileRule.new(@project, 'hello', 'world')
   end
 
   it "should invoke cp binary with correct arguments" do

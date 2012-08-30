@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class LipoRule < Motion::Build::FileRule
+  class LipoRule < MotionBuild::FileRule
     attr_reader :sources, :destination
 
     def input_extension
@@ -33,4 +33,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

@@ -1,4 +1,4 @@
-module Motion ; module Build
+module MotionBuild
   class Rule
     attr_reader :dependencies, :project
 
@@ -37,4 +37,4 @@ module Motion ; module Build
       ">"
     end
   end
-end ; end
+end

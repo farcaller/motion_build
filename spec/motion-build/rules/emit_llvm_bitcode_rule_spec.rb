@@ -3,9 +3,9 @@ require 'motion_build/rules'
 
 KERNEL_FILE_PATH = '/Library/RubyMotion/data/6.0/iPhoneSimulator/kernel-i386.bc'
 
-describe Motion::Build::Rules::EmitLLVMBitcodeRule do
+describe MotionBuild::Rules::EmitLLVMBitcodeRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
     @project.config[:source_dir] = Dir.mktmpdir
     @project.config[:build_dir] = Dir.mktmpdir
 
@@ -13,7 +13,7 @@ describe Motion::Build::Rules::EmitLLVMBitcodeRule do
     @project.config[:build_platform] = 'iPhoneSimulator'
     @project.config[:base_sdk] = '6.0'
 
-    @r = Motion::Build::Rules::EmitLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), arch: 'i386', init_func: 'MREP_C2797146C50F4A89A85C57D08BBE5123', bridge_support_files: BRIDGE_SUPPORT_STUB)
+    @r = MotionBuild::Rules::EmitLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), arch: 'i386', init_func: 'MREP_C2797146C50F4A89A85C57D08BBE5123', bridge_support_files: BRIDGE_SUPPORT_STUB)
   end
 
   it "should input '.rb' files and output '.bc' files" do

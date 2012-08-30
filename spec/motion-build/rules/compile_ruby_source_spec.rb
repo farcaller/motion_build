@@ -1,13 +1,13 @@
 require 'motion_build/project'
 require 'motion_build/rules'
 
-describe Motion::Build::Rules::CompileRubySourceRule do
+describe MotionBuild::Rules::CompileRubySourceRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
     @project.config[:source_dir] = Dir.mktmpdir
     @project.config[:build_dir] = Dir.mktmpdir
 
-    @r = Motion::Build::Rules::CompileRubySourceRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), archs: ['i386'], bridge_support_files: BRIDGE_SUPPORT_STUB)
+    @r = MotionBuild::Rules::CompileRubySourceRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), archs: ['i386'], bridge_support_files: BRIDGE_SUPPORT_STUB)
   end
 
   it "should input '.rb' files and output '.o' files" do
@@ -17,33 +17,33 @@ describe Motion::Build::Rules::CompileRubySourceRule do
 
   it "should set up the dependencies for one arch" do
     deps = <<EOF
-<Motion::Build::Rules::CompileRubySourceRule [
-  <Motion::Build::Rules::AssembleSourceRule [
-    <Motion::Build::Rules::ParseLLVMBitcodeRule [
-      <Motion::Build::Rules::EmitLLVMBitcodeRule>
+<MotionBuild::Rules::CompileRubySourceRule [
+  <MotionBuild::Rules::AssembleSourceRule [
+    <MotionBuild::Rules::ParseLLVMBitcodeRule [
+      <MotionBuild::Rules::EmitLLVMBitcodeRule>
     ]>
   ]>,
-  <Motion::Build::Rules::CopyFileRule>
+  <MotionBuild::Rules::CopyFileRule>
 ]>
 EOF
     @r.inspect_dependencies.should == deps.strip
   end
 
   it "should set up the dependencies for multiple archs" do
-    @r = Motion::Build::Rules::CompileRubySourceRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), archs: ['i386', 'armv7'], bridge_support_files: BRIDGE_SUPPORT_STUB)
+    @r = MotionBuild::Rules::CompileRubySourceRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), archs: ['i386', 'armv7'], bridge_support_files: BRIDGE_SUPPORT_STUB)
     deps = <<EOF
-<Motion::Build::Rules::CompileRubySourceRule [
-  <Motion::Build::Rules::AssembleSourceRule [
-    <Motion::Build::Rules::ParseLLVMBitcodeRule [
-      <Motion::Build::Rules::EmitLLVMBitcodeRule>
+<MotionBuild::Rules::CompileRubySourceRule [
+  <MotionBuild::Rules::AssembleSourceRule [
+    <MotionBuild::Rules::ParseLLVMBitcodeRule [
+      <MotionBuild::Rules::EmitLLVMBitcodeRule>
     ]>
   ]>,
-  <Motion::Build::Rules::AssembleSourceRule [
-    <Motion::Build::Rules::ParseLLVMBitcodeRule [
-      <Motion::Build::Rules::EmitLLVMBitcodeRule>
+  <MotionBuild::Rules::AssembleSourceRule [
+    <MotionBuild::Rules::ParseLLVMBitcodeRule [
+      <MotionBuild::Rules::EmitLLVMBitcodeRule>
     ]>
   ]>,
-  <Motion::Build::Rules::LipoRule>
+  <MotionBuild::Rules::LipoRule>
 ]>
 EOF
   @r.inspect_dependencies.should == deps.strip

@@ -1,13 +1,13 @@
 require 'motion_build/project'
 require 'motion_build/rules'
 
-describe Motion::Build::Rules::LipoRule do
+describe MotionBuild::Rules::LipoRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
     @project.config[:source_dir] = Dir.mktmpdir
     @project.config[:build_dir] = Dir.mktmpdir
 
-    @r = Motion::Build::Rules::LipoRule.new(@project, [
+    @r = MotionBuild::Rules::LipoRule.new(@project, [
       File.join(@project.config[:source_dir], 'test.i386.o'),
       File.join(@project.config[:source_dir], 'test.arm7.o'),
     ], File.join(@project.config[:build_dir], 'test.o'))

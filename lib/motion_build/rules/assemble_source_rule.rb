@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class AssembleSourceRule < Motion::Build::FileRule
+  class AssembleSourceRule < MotionBuild::FileRule
     attr_reader :arch
 
     def input_extension
@@ -22,4 +22,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

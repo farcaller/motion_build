@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class UnlinkFileRule < Motion::Build::Rule
+  class UnlinkFileRule < MotionBuild::Rule
     attr_reader :target
     def active?
       File.exist?(target)
@@ -17,4 +17,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

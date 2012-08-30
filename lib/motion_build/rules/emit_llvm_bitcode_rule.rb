@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class EmitLLVMBitcodeRule < Motion::Build::FileRule
+  class EmitLLVMBitcodeRule < MotionBuild::FileRule
     attr_reader :arch, :init_func_name, :bs_files
 
     def input_extension
@@ -33,4 +33,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

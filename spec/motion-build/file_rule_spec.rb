@@ -2,18 +2,18 @@ require 'motion_build/project'
 require 'motion_build/file_rule'
 require 'tmpdir'
 
-class TestFileRule < Motion::Build::FileRule
+class TestFileRule < MotionBuild::FileRule
   def input_extension; '.src'; end
   def output_extension; '.dst'; end
 end
 
-class NoDestTestFileRule < Motion::Build::FileRule
+class NoDestTestFileRule < MotionBuild::FileRule
   def input_extension; '.src'; end
 end
 
-describe Motion::Build::FileRule do
+describe MotionBuild::FileRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
   end
 
   it "should have input and output extensions" do
@@ -33,20 +33,20 @@ describe Motion::Build::FileRule do
   end
 
   it "should accept any file if no extension is defined" do
-    expect { Motion::Build::FileRule.new(@project, 'input.bad') }.to_not raise_error(ArgumentError)
+    expect { MotionBuild::FileRule.new(@project, 'input.bad') }.to_not raise_error(ArgumentError)
   end
 
   it "should not accept more than one argument" do
-    expect { Motion::Build::FileRule.new(@project, 'input.bad', 'trash') }.to raise_error(ArgumentError)
+    expect { MotionBuild::FileRule.new(@project, 'input.bad', 'trash') }.to raise_error(ArgumentError)
   end
 
   it "should have empty destination by default" do
-    Motion::Build::FileRule.new(@project, 'input.bad').destination.should be_nil
+    MotionBuild::FileRule.new(@project, 'input.bad').destination.should be_nil
   end
 
   it "should resolve project-relative path for source" do
     @project.config[:source_dir] = '/var/tmp/nowhere/'
-    r = Motion::Build::FileRule.new(@project, '/var/tmp/nowhere/subdir/input.src')
+    r = MotionBuild::FileRule.new(@project, '/var/tmp/nowhere/subdir/input.src')
     r.send(:relative_source).should == 'subdir/input.src'
   end
 

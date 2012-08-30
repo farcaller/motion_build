@@ -1,6 +1,6 @@
-module Motion ; module Build ; module Rules
+module MotionBuild ; module Rules
 
-  class CopyFileRule < Motion::Build::FileRule
+  class CopyFileRule < MotionBuild::FileRule
     attr_reader :destination
     
     def run
@@ -14,4 +14,4 @@ module Motion ; module Build ; module Rules
     end
   end
 
-end ; end ; end
+end ; end

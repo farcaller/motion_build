@@ -1,7 +1,7 @@
 require 'motion_build/project'
 require 'motion_build/rule'
 
-class TestRule < Motion::Build::Rule
+class TestRule < MotionBuild::Rule
   attr_accessor :action_runs_count
   def run
     @action_runs_count = @action_runs_count ? @action_runs_count+1 : 1
@@ -14,9 +14,9 @@ class TestActiveRule < TestRule
   end
 end
 
-describe Motion::Build::Rule do
+describe MotionBuild::Rule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
   end
 
   it "should not run by default" do
@@ -27,7 +27,7 @@ describe Motion::Build::Rule do
   end
 
   it "should have no dependencies" do
-    r = Motion::Build::Rule.new(@project)
+    r = MotionBuild::Rule.new(@project)
     r.dependencies.count.should == 0
   end
 

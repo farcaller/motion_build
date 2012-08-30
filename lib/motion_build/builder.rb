@@ -1,7 +1,7 @@
 require 'term/ansicolor'
 require 'open3'
 
-module Motion ; module Build
+module MotionBuild
   class Builder
     include Term::ANSIColor
 
@@ -41,4 +41,4 @@ module Motion ; module Build
     end
   end
 
-end ; end
+end

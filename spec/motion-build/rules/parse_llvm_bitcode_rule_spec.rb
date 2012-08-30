@@ -1,13 +1,13 @@
 require 'motion_build/project'
 require 'motion_build/rules'
 
-describe Motion::Build::Rules::ParseLLVMBitcodeRule do
+describe MotionBuild::Rules::ParseLLVMBitcodeRule do
   before :each do
-    @project = Motion::Build::Project.new("Hello World")
+    @project = MotionBuild::Project.new("Hello World")
     @project.config[:source_dir] = Dir.mktmpdir
     @project.config[:build_dir] = Dir.mktmpdir
 
-    @r = Motion::Build::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'i386')
+    @r = MotionBuild::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'i386')
   end
 
   it "should input '.bc' files and output '.s' files" do
@@ -16,13 +16,13 @@ describe Motion::Build::Rules::ParseLLVMBitcodeRule do
   end
 
   it "should map arch to llc arch" do
-    r = Motion::Build::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'i386')
+    r = MotionBuild::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'i386')
     r.send(:llc_arch).should == 'x86'
-    r = Motion::Build::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'x86_64')
+    r = MotionBuild::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'x86_64')
     r.send(:llc_arch).should == 'x86-64'
-    r = Motion::Build::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'armv6')
+    r = MotionBuild::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'armv6')
     r.send(:llc_arch).should == 'arm'
-    r = Motion::Build::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'armv7')
+    r = MotionBuild::Rules::ParseLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.bc'), arch: 'armv7')
     r.send(:llc_arch).should == 'arm'
   end
 
