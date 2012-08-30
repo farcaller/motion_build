@@ -1,5 +1,8 @@
 # Motion::Build
 
+[![Build Status](https://secure.travis-ci.org/farcaller/motion-build.png?branch=master)](http://travis-ci.org/farcaller/motion-build)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/farcaller/motion-build)
+
 This is an experiment to make a modern RubyMotion build system.
 
 ## Goals
