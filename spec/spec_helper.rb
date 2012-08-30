@@ -1,8 +1,9 @@
-require 'rubygems'
-require 'bundler/setup'
+require 'simplecov'
+SimpleCov.start
 
-require 'pry'
-require 'pry-nav'
+require 'bundler'
+
+Bundler.require(:default, :test)
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

@@ -18,3 +18,4 @@ tmp
 sample/mb-build/
 sample/build/
 .tags*
+coverage/
