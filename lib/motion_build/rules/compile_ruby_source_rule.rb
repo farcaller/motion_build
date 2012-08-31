@@ -2,7 +2,7 @@ require 'uuidtools'
 
 module MotionBuild ; module Rules
 
-  class CompileRubySourceRule < MotionBuild::FileRule
+  class CompileRubySourceRule < MotionBuild::ObjectFileRule
     attr_reader :archs, :init_func_name, :bs_files
 
     def input_extension

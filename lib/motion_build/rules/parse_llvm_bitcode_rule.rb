@@ -1,6 +1,6 @@
 module MotionBuild ; module Rules
 
-  class ParseLLVMBitcodeRule < MotionBuild::FileRule
+  class ParseLLVMBitcodeRule < MotionBuild::ObjectFileRule
     attr_reader :arch, :llc_arch
 
     def input_extension

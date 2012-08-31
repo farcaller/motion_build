@@ -1,4 +1,5 @@
 require 'motion_build/builder'
+require 'motion_build/config'
 
 module MotionBuild
   class Project
@@ -10,33 +11,20 @@ module MotionBuild
       @name = name
       @sources = []
       @frameworks = ['Foundation', 'CoreGraphics', 'UIKit']
-      @config = {}
+      @config = Config.new
     end
     
     def build
       @builder = Builder.new
-      @config[:source_dir] = File.absolute_path('app')
-      @config[:build_dir] = File.absolute_path('mb-build/iPhoneSimulator/objs')
-      @config[:config_file] = File.absolute_path('motion.thor')
-      @config[:motion_data_dir] = '/Library/RubyMotion/data'
-      @config[:deployment_target] = '6.0'
-      @config[:base_sdk] = '6.0'
-      @config[:build_architectures] = ['i386']
-      @config[:build_platform] = 'iPhoneSimulator'
-      @config[:build_cflags] = [
-        '-arch', @config[:build_architectures].first,
-        '-isysroot',
-        '/Applications/Xcode45-DP4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk',
-        '-miphoneos-version-min=6.0',
-        '-F/Applications/Xcode45-DP4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk/System/Library/Frameworks',
-        '-fexceptions', '-fblocks', '-fobjc-legacy-dispatch', '-fobjc-abi-version=2'
-      ]
+      @config.override(:platform, 'iPhoneSimulator')
+      @config.override(:source_dir, File.absolute_path('app'))
+      @config.override(:project_config, "motion.thor")
 
-      FileUtils.mkdir_p(@config[:build_dir]) unless File.exists?(@config[:build_dir])
+      FileUtils.mkdir_p(@config.get(:build_dir)) unless File.exists?(@config.get(:build_dir))
 
       @root_rule = Rules::BuildProjectRule.new(self)
 
-      if File.mtime(@config[:config_file]) < File.mtime(@config[:build_dir])
+      if File.mtime(@config.get(:project_config)) < File.mtime(@config.get(:build_dir))
         @root_rule.action
       else
         puts "force start"

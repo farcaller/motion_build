@@ -1,6 +1,6 @@
 module MotionBuild ; module Rules
 
-  class LipoRule < MotionBuild::FileRule
+  class LipoRule < MotionBuild::ObjectFileRule
     attr_reader :sources, :destination
 
     def input_extension

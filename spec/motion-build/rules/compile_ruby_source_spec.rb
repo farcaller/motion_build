@@ -4,10 +4,10 @@ require 'motion_build/rules'
 describe MotionBuild::Rules::CompileRubySourceRule do
   before :each do
     @project = MotionBuild::Project.new("Hello World")
-    @project.config[:source_dir] = Dir.mktmpdir
-    @project.config[:build_dir] = Dir.mktmpdir
+    @project.config.override(:source_dir, Dir.mktmpdir)
+    @project.config.override(:build_dir, Dir.mktmpdir)
 
-    @r = MotionBuild::Rules::CompileRubySourceRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), archs: ['i386'], bridge_support_files: BRIDGE_SUPPORT_STUB)
+    @r = MotionBuild::Rules::CompileRubySourceRule.new(@project, File.join(@project.config.get(:source_dir), 'test.rb'), archs: ['i386'], bridge_support_files: BRIDGE_SUPPORT_STUB)
   end
 
   it "should input '.rb' files and output '.o' files" do
@@ -30,7 +30,7 @@ EOF
   end
 
   it "should set up the dependencies for multiple archs" do
-    @r = MotionBuild::Rules::CompileRubySourceRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), archs: ['i386', 'armv7'], bridge_support_files: BRIDGE_SUPPORT_STUB)
+    @r = MotionBuild::Rules::CompileRubySourceRule.new(@project, File.join(@project.config.get(:source_dir), 'test.rb'), archs: ['i386', 'armv7'], bridge_support_files: BRIDGE_SUPPORT_STUB)
     deps = <<EOF
 <MotionBuild::Rules::CompileRubySourceRule [
   <MotionBuild::Rules::AssembleSourceRule [
@@ -50,7 +50,7 @@ EOF
   end
 
   after :each do
-    FileUtils.remove_dir @project.config[:source_dir]
-    FileUtils.remove_dir @project.config[:build_dir]
+    FileUtils.remove_dir @project.config.get(:source_dir)
+    FileUtils.remove_dir @project.config.get(:build_dir)
   end
 end

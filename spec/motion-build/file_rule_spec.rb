@@ -14,6 +14,7 @@ end
 describe MotionBuild::FileRule do
   before :each do
     @project = MotionBuild::Project.new("Hello World")
+    @project.config.validate = false
   end
 
   it "should have input and output extensions" do
@@ -45,21 +46,22 @@ describe MotionBuild::FileRule do
   end
 
   it "should resolve project-relative path for source" do
-    @project.config[:source_dir] = '/var/tmp/nowhere/'
+    @project.config.override(:source_dir, '/var/tmp/nowhere/')
+    @project.config.override(:build_dir, '/var/tmp/nowhere/build/')
     r = MotionBuild::FileRule.new(@project, '/var/tmp/nowhere/subdir/input.src')
     r.send(:relative_source).should == 'subdir/input.src'
   end
 
   it "should resolve destination-relative path for known extension" do
-    @project.config[:source_dir] = '/var/tmp/nowhere/'
-    @project.config[:build_dir] = '/var/tmp/nowhere/build/'
+    @project.config.override(:source_dir, '/var/tmp/nowhere/')
+    @project.config.override(:build_dir, '/var/tmp/nowhere/build/')
     r = TestFileRule.new(@project, '/var/tmp/nowhere/subdir/input.src')
     r.send(:relative_destination).should == 'subdir/input.dst'
   end
 
   it "should resolve destination path for known extension" do
-    @project.config[:source_dir] = '/var/tmp/nowhere/'
-    @project.config[:build_dir] = '/var/tmp/nowhere/build/'
+    @project.config.override(:source_dir, '/var/tmp/nowhere/')
+    @project.config.override(:build_dir, '/var/tmp/nowhere/build/')
     r = TestFileRule.new(@project, '/var/tmp/nowhere/subdir/input.src')
     r.destination.should == '/var/tmp/nowhere/build/subdir/input.dst'
   end
@@ -69,10 +71,17 @@ describe MotionBuild::FileRule do
     r.should be_active
   end
 
+  it "should try resolve path as relative to build, rather then relative to source" do
+    @project.config.override(:source_dir, '/var/tmp/nowhere/')
+    @project.config.override(:build_dir, '/var/tmp/nowhere/build')
+    r = TestFileRule.new(@project, '/var/tmp/nowhere/build/input.src')
+    r.destination.should == '/var/tmp/nowhere/build/input.dst'
+  end
+
   context "with existing source and build dirs" do
     before :each do
-      @project.config[:source_dir] = Dir.mktmpdir
-      @project.config[:build_dir] = Dir.mktmpdir
+      @project.config.override(:source_dir, Dir.mktmpdir)
+      @project.config.override(:build_dir, Dir.mktmpdir)
     end
 
     it "should be active if there's no destination extension" do
@@ -81,37 +90,37 @@ describe MotionBuild::FileRule do
     end
 
     it "should be active if there's no destination file" do
-      FileUtils.touch File.join(@project.config[:source_dir], 'test.src')
-      r = TestFileRule.new(@project, File.join(@project.config[:source_dir], 'test.src'))
+      FileUtils.touch File.join(@project.config.get(:source_dir), 'test.src')
+      r = TestFileRule.new(@project, File.join(@project.config.get(:source_dir), 'test.src'))
       r.should be_active
     end
 
     it "should be active if the source file is older than destination file" do
-      FileUtils.touch File.join(@project.config[:source_dir], 'test.src'), mtime: Time.now - 50
-      FileUtils.touch File.join(@project.config[:build_dir], 'test.dst'), mtime: Time.now - 100
+      FileUtils.touch File.join(@project.config.get(:source_dir), 'test.src'), mtime: Time.now - 50
+      FileUtils.touch File.join(@project.config.get(:build_dir), 'test.dst'), mtime: Time.now - 100
 
-      r = TestFileRule.new(@project, File.join(@project.config[:source_dir], 'test.src'))
+      r = TestFileRule.new(@project, File.join(@project.config.get(:source_dir), 'test.src'))
       r.should be_active
     end
 
     it "should be inactive otherwise" do
-      FileUtils.touch File.join(@project.config[:source_dir], 'test.src'), mtime: Time.now - 100
-      FileUtils.touch File.join(@project.config[:build_dir], 'test.dst'), mtime: Time.now - 50
+      FileUtils.touch File.join(@project.config.get(:source_dir), 'test.src'), mtime: Time.now - 100
+      FileUtils.touch File.join(@project.config.get(:build_dir), 'test.dst'), mtime: Time.now - 50
 
-      r = TestFileRule.new(@project, File.join(@project.config[:source_dir], 'test.src'))
+      r = TestFileRule.new(@project, File.join(@project.config.get(:source_dir), 'test.src'))
       r.should_not be_active
     end
 
     it "creates destination directory" do
-      r = TestFileRule.new(@project, File.join(@project.config[:source_dir], 'test', 'test.src'))
+      r = TestFileRule.new(@project, File.join(@project.config.get(:source_dir), 'test', 'test.src'))
       r.send(:ensure_destination_directory)
-      d = File.join(@project.config[:build_dir], 'test')
+      d = File.join(@project.config.get(:build_dir), 'test')
       File.should be_directory(d)
     end
 
     after :each do
-      FileUtils.remove_dir @project.config[:source_dir]
-      FileUtils.remove_dir @project.config[:build_dir]
+      FileUtils.remove_dir @project.config.get(:source_dir)
+      FileUtils.remove_dir @project.config.get(:build_dir)
     end
   end
 end

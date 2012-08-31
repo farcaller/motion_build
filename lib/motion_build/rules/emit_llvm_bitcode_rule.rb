@@ -1,6 +1,6 @@
 module MotionBuild ; module Rules
 
-  class EmitLLVMBitcodeRule < MotionBuild::FileRule
+  class EmitLLVMBitcodeRule < MotionBuild::ObjectFileRule
     attr_reader :arch, :init_func_name, :bs_files
 
     def input_extension
@@ -29,7 +29,7 @@ module MotionBuild ; module Rules
     end
 
     def kernel_file
-      File.join(project.config[:motion_data_dir], project.config[:base_sdk], project.config[:build_platform], "kernel-#{arch}.bc")
+      File.join(project.config.get(:motion_data_dir), project.config.get(:base_sdk), project.config.get(:platform), "kernel-#{arch}.bc")
     end
   end
 

@@ -27,7 +27,7 @@ module MotionBuild
 
     def destination
       return nil unless output_extension
-      File.join(project.config[:build_dir], relative_destination)
+      File.join(project.config.get(:build_dir), relative_destination)
     end
 
     def active?
@@ -69,10 +69,10 @@ module MotionBuild
     end
 
     def relative_source
-      if source.index(project.config[:source_dir]) == 0
-        source[project.config[:source_dir].length..-1]
-      elsif source.index(project.config[:build_dir]) == 0
-        source[project.config[:build_dir].length..-1] # return dest-relative
+      if source.index(project.config.get(:build_dir)) == 0
+        source[project.config.get(:build_dir).length..-1] # return dest-relative
+      elsif source.index(project.config.get(:source_dir)) == 0
+        source[project.config.get(:source_dir).length..-1]
       else
         source # return absolute source
       end

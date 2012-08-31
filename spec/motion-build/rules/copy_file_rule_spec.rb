@@ -4,8 +4,8 @@ require 'motion_build/rules'
 describe MotionBuild::Rules::CopyFileRule do
   before :each do
     @project = MotionBuild::Project.new("Hello World")
-    @project.config[:source_dir] = Dir.mktmpdir
-    @project.config[:build_dir] = Dir.mktmpdir
+    @project.config.override(:source_dir, Dir.mktmpdir)
+    @project.config.override(:build_dir, Dir.mktmpdir)
 
     @r = MotionBuild::Rules::CopyFileRule.new(@project, 'hello', 'world')
   end
@@ -17,7 +17,7 @@ describe MotionBuild::Rules::CopyFileRule do
   end
 
   after :each do
-    FileUtils.remove_dir @project.config[:source_dir]
-    FileUtils.remove_dir @project.config[:build_dir]
+    FileUtils.remove_dir @project.config.get(:source_dir)
+    FileUtils.remove_dir @project.config.get(:build_dir)
   end
 end

@@ -1,6 +1,6 @@
 module MotionBuild ; module Rules
 
-  class CompileCPPSourceRule < MotionBuild::FileRule
+  class CompileCPPSourceRule < MotionBuild::ObjectFileRule
     def input_extension
       '.mm'
     end
@@ -11,7 +11,7 @@ module MotionBuild ; module Rules
 
     def run
       project.builder.notify('clang++', source, destination)
-      project.builder.run('clang++', [source, *project.config[:build_cflags], '-c', '-o', destination])
+      project.builder.run('clang++', [source, *project.config.get(:cflags), '-c', '-o', destination])
     end
 
     def initialize(project, source)

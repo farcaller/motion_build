@@ -6,14 +6,13 @@ KERNEL_FILE_PATH = '/Library/RubyMotion/data/6.0/iPhoneSimulator/kernel-i386.bc'
 describe MotionBuild::Rules::EmitLLVMBitcodeRule do
   before :each do
     @project = MotionBuild::Project.new("Hello World")
-    @project.config[:source_dir] = Dir.mktmpdir
-    @project.config[:build_dir] = Dir.mktmpdir
+    @project.config.override(:source_dir, Dir.mktmpdir)
+    @project.config.override(:build_dir, Dir.mktmpdir)
 
-    @project.config[:motion_data_dir] = '/Library/RubyMotion/data'
-    @project.config[:build_platform] = 'iPhoneSimulator'
-    @project.config[:base_sdk] = '6.0'
+    @project.config.override(:platform, 'iPhoneSimulator')
+    @project.config.override(:base_sdk, '6.0')
 
-    @r = MotionBuild::Rules::EmitLLVMBitcodeRule.new(@project, File.join(@project.config[:source_dir], 'test.rb'), arch: 'i386', init_func: 'MREP_C2797146C50F4A89A85C57D08BBE5123', bridge_support_files: BRIDGE_SUPPORT_STUB)
+    @r = MotionBuild::Rules::EmitLLVMBitcodeRule.new(@project, File.join(@project.config.get(:source_dir), 'test.rb'), arch: 'i386', init_func: 'MREP_C2797146C50F4A89A85C57D08BBE5123', bridge_support_files: BRIDGE_SUPPORT_STUB)
   end
 
   it "should input '.rb' files and output '.bc' files" do
@@ -34,15 +33,15 @@ describe MotionBuild::Rules::EmitLLVMBitcodeRule do
     @project.builder.should_receive(:run).with('ruby', [
       *BRIDGE_SUPPORT_FLAGS_STUB,
       '--emit-llvm',
-      File.join(@project.config[:build_dir], 'test.bc'),
+      File.join(@project.config.get(:build_dir_objects), 'test.bc'),
       'MREP_C2797146C50F4A89A85C57D08BBE5123',
-      File.join(@project.config[:source_dir], 'test.rb'),
+      File.join(@project.config.get(:source_dir), 'test.rb'),
     ], { env: { 'VM_KERNEL_PATH' => KERNEL_FILE_PATH}})
     @r.action
   end
 
   after :each do
-    FileUtils.remove_dir @project.config[:source_dir]
-    FileUtils.remove_dir @project.config[:build_dir]
+    FileUtils.remove_dir @project.config.get(:source_dir)
+    FileUtils.remove_dir @project.config.get(:build_dir)
   end
 end

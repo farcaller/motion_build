@@ -28,7 +28,7 @@ module MotionBuild ; module Rules
     private
     def setup_dependencies
       compile_rules = project.sources.map do |src|
-        CompileRubySourceRule.new(project, src, archs: project.config[:build_architectures], bridge_support_files: bs_files)
+        CompileRubySourceRule.new(project, src, archs: project.config.get(:build_architectures), bridge_support_files: bs_files)
       end
 
       dependencies.concat(compile_rules)
@@ -44,7 +44,8 @@ module MotionBuild ; module Rules
       dependencies << compile_init_file
 
 
-      main_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'main.mm.erb'), project.config)
+      main_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'main.mm.erb'), {})
+      # TODO: fix the hash
 
       compile_main_file = CompileCPPSourceRule.new(project, main_file.destination)
       compile_main_file.dependencies << main_file
@@ -58,7 +59,7 @@ module MotionBuild ; module Rules
       @bs_files = []
       frameworks.each do |framework|
         acceptable_sdk_versions.each do |ver|
-          bs_fn = File.join(project.config[:motion_data_dir], ver, 'BridgeSupport', framework + '.bridgesupport')
+          bs_fn = File.join(project.config.get(:motion_data_dir), ver, 'BridgeSupport', framework + '.bridgesupport')
           @bs_files << bs_fn if File.exist?(bs_fn)
         end
       end
@@ -66,10 +67,10 @@ module MotionBuild ; module Rules
     end
 
     def acceptable_sdk_versions
-      @available_versions ||= Dir.glob(File.join(project.config[:motion_data_dir], '*')).
+      @available_versions ||= Dir.glob(File.join(project.config.get(:motion_data_dir), '*')).
         select{ |path| File.directory?(path) }.map { |path| File.basename path }
 
-      @acceptable_versions = @available_versions.reject { |ver| ver >= project.config[:deployment_target] && ver <= project.config[:base_sdk] }
+      @acceptable_versions = @available_versions.reject { |ver| ver >= project.config.get(:deployment_target) && ver <= project.config.get(:base_sdk) }
     end
   end
 

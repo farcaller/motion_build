@@ -4,10 +4,10 @@ require 'motion_build/rules'
 describe MotionBuild::Rules::AssembleSourceRule do
   before :each do
     @project = MotionBuild::Project.new("Hello World")
-    @project.config[:source_dir] = Dir.mktmpdir
-    @project.config[:build_dir] = Dir.mktmpdir
+    @project.config.override(:source_dir, Dir.mktmpdir)
+    @project.config.override(:build_dir, Dir.mktmpdir)
 
-    @r = MotionBuild::Rules::AssembleSourceRule.new(@project, File.join(@project.config[:source_dir], 'test.s'), arch: 'i386')
+    @r = MotionBuild::Rules::AssembleSourceRule.new(@project, File.join(@project.config.get(:source_dir), 'test.s'), arch: 'i386')
   end
 
   it "should input '.s' files and output '.o' files" do
@@ -21,14 +21,14 @@ describe MotionBuild::Rules::AssembleSourceRule do
       '-fexceptions',
       '-c',
       '-arch', 'i386',
-      File.join(@project.config[:source_dir], 'test.s'),
+      File.join(@project.config.get(:source_dir), 'test.s'),
       '-o',
-      File.join(@project.config[:build_dir], 'test.o')])
+      File.join(@project.config.get(:build_dir_objects), 'test.o')])
     @r.action
   end
 
   after :each do
-    FileUtils.remove_dir @project.config[:source_dir]
-    FileUtils.remove_dir @project.config[:build_dir]
+    FileUtils.remove_dir @project.config.get(:source_dir)
+    FileUtils.remove_dir @project.config.get(:build_dir)
   end
 end
