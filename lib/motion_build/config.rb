@@ -10,7 +10,10 @@ module MotionBuild
       @local_options = {}
       @validate = true
 
-      load_dsl
+      @options = {}
+      @validators = {}
+
+      load_options(File.join(File.dirname(__FILE__), 'config_options.dsl.rb'))
     end
 
     def override(opt_name, value)
@@ -37,15 +40,19 @@ module MotionBuild
       true
     end
 
-    private
-    def load_dsl
-      instr_file = File.join(File.dirname(__FILE__), 'config_options.dsl.rb')
+    def load_options(*args, &block)
+      raise RuntimeError, "You must specify either a filename or a block" if (args.count >= 1 && block_given?) || (args.count == 0 && ! block_given?)
       dsl = DSLLoader.new
-      dsl.instance_eval open(instr_file).read, instr_file, 1
-      @options = dsl.options
-      @validators = dsl.validators
+      if block_given?
+        dsl.instance_eval(&block)
+      else
+        dsl.instance_eval(open(args.first).read, args.first, 1)
+      end
+      @options.merge!(dsl.options)
+      @validators.merge!(dsl.validators)
     end
 
+    private
     class ValidationError < RuntimeError; end
 
     class DSLLoader
