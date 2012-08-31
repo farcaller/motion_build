@@ -6,6 +6,7 @@ KERNEL_FILE_PATH = '/Library/RubyMotion/data/6.0/iPhoneSimulator/kernel-i386.bc'
 describe MotionBuild::Rules::EmitLLVMBitcodeRule do
   before :each do
     @project = MotionBuild::Project.new("Hello World")
+    @project.config.validate = false
     @project.config.override(:source_dir, Dir.mktmpdir)
     @project.config.override(:build_dir, Dir.mktmpdir)
 
