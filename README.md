@@ -32,8 +32,9 @@ might be actually renamed to Target).
 Core concepts of Project are:
 
 1. **Config**. This one holds project properties and build-time data required for
-the build. It's pretty limited now (it's a Hash), what I'm looking forward to is
-to make it more customizable based on actual running conditions.
+the build. It's based on a DSL for possible options and value validators. Options
+can hold a default value, resolve it at runtime, or you can override it from local
+config.
 
 2. **Builder**. This is a pretty straightforward class, that manages all external
 tools, performs command executions and also logs the required output.
