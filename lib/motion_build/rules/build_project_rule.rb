@@ -49,8 +49,10 @@ module MotionBuild ; module Rules
 
       compile_main_file = CompileClangSourceRule.build(project, main_file.destination)
       compile_main_file.dependencies << main_file
-
       dependencies << compile_main_file
+
+      prepare_bundle = PrepareBundleRule.new(project, project.config.get(:name))
+      dependencies << prepare_bundle
     end
 
     def bs_files
