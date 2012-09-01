@@ -44,7 +44,7 @@ module MotionBuild
       raise RuntimeError, "You must specify either a filename or a block" if (args.count >= 1 && block_given?) || (args.count == 0 && ! block_given?)
       dsl = DSLLoader.new
       if block_given?
-        dsl.instance_eval(&block)
+        block.call(dsl)
       else
         dsl.instance_eval(open(args.first).read, args.first, 1)
       end
