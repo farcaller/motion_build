@@ -2,6 +2,7 @@ require 'motion_build/rule'
 require 'motion_build/file_rule'
 
 require 'motion_build/rules/object_file_rule'
+require 'motion_build/rules/multifile_rule'
 require 'motion_build/rules/emit_llvm_bitcode_rule'
 require 'motion_build/rules/parse_llvm_bitcode_rule'
 require 'motion_build/rules/assemble_source_rule'
