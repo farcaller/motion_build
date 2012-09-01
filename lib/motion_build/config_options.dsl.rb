@@ -1,5 +1,10 @@
 # Options
 
+# Project name
+option :name do
+  ''
+end
+
 # The root directory for RubyMotion
 option :motion_data_dir, validate: :existing_directory do |cfg|
   '/Library/RubyMotion/data'

@@ -18,6 +18,7 @@ module MotionBuild
       @builder = Builder.new
       @config.override(:platform, 'iPhoneSimulator')
       @config.override(:project_config, "motion.thor")
+      @config.override(:name, @name)
 
       FileUtils.mkdir_p(@config.get(:build_dir)) unless File.exists?(@config.get(:build_dir))
 
