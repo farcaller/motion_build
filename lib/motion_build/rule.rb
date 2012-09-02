@@ -1,10 +1,12 @@
 module MotionBuild
   class Rule
     attr_reader :dependencies, :project
+    attr_writer :forced
 
     def initialize(project)
       @project = project
       @dependencies = []
+      @forced = false
     end
 
     # The *active* rule requires its *action* to be performed this build cycle
@@ -12,18 +14,20 @@ module MotionBuild
       false
     end
 
+    def forced?
+      @forced
+    end
+
     def action!
-      # project.builder.notify('', self.class.to_s, "dependencies!")
-      @dependencies.each { |dep| dep.action! }
-      # project.builder.notify('', self.class.to_s, "run!")
-      run
+      self.forced = true
+      action
     end
 
     def action
-      # project.builder.notify('', self.class.to_s, "dependencies")
-      @dependencies.each { |dep| dep.action }
-      # project.builder.notify('', self.class.to_s, "run")
-      run if active?
+      pre_dependencies
+      @dependencies.each { |dep| forced? ? dep.action! : dep.action }
+      post_dependencies
+      run if forced? || active?
     end
 
     def inspect_dependencies(*args)
@@ -35,6 +39,16 @@ module MotionBuild
         ''
       end +
       ">"
+    end
+
+    protected
+    def run
+    end
+
+    def pre_dependencies
+    end
+
+    def post_dependencies
     end
   end
 end
