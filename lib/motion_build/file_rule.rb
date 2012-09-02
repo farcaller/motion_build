@@ -48,17 +48,11 @@ module MotionBuild
       "inactive (mtime)"
     end
 
-    def action
-      ensure_destination_directory if active?
-      super
-    end
-
-    def action!
-      ensure_destination_directory
-      super
-    end
-
     protected
+    def pre_dependencies
+      ensure_destination_directory if forced? || active?
+    end
+
     def ensure_destination_directory
       d = File.dirname(destination)
       if File.exist?(d)
