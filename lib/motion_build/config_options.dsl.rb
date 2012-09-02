@@ -54,20 +54,32 @@ option :build_architectures, validate: :arch_kernel_exists do |cfg|
     'kernel-*.bc')).map { |d| File.basename(d) =~ /^kernel-(.+)\.bc/; $~[1] }
 end
 
-# CFLAGS for CompileCPPSourceRule (all)
-option :cflags, no_override: true do |cfg|
-  [
-    *(cfg.get(:build_architectures).map { |a| ['-arch', a] }.flatten),
+option :clang_flags, no_override: true do |cfg|
+  [*(cfg.get(:build_architectures).map { |a| ['-arch', a] }.flatten),
     '-isysroot', cfg.get(:system_root),
     "-miphoneos-version-min=#{cfg.get(:deployment_target)}",
-    *cfg.get(:framework_search_paths),
+    *cfg.get(:framework_search_paths)]
+end
+
+# CFLAGS for CompileCPPSourceRule (all)
+option :cflags, no_override: true do |cfg|
+  [*cfg.get(:clang_flags),
     '-fexceptions', '-fblocks', '-fobjc-legacy-dispatch', '-fobjc-abi-version=2',
-    *cfg.get(:other_cflags)
-  ]
+    *cfg.get(:other_cflags)]
+end
+
+# LDFLAGS for LinkObjectsRule (all)
+option :ldflags, no_override: true do |cfg|
+  [*cfg.get(:clang_flags), *cfg.get(:other_ldflags)]
 end
 
 # CFLAGS for CompileCPPSourceRule (user-defined)
 option :other_cflags do |cfg|
+  []
+end
+
+# LDFLAGS for LinkObjectsRule (user-defined)
+option :other_ldflags do |cfg|
   []
 end
 
@@ -90,6 +102,10 @@ end
 
 option :framework_search_paths, no_override: true do |cfg|
   ['-F' + File.join(cfg.get(:system_root), 'System', 'Library', 'Frameworks')]
+end
+
+option :frameworks do |cfg|
+  ['UIKit', 'Foundation', 'CoreGraphics']
 end
 
 # Validators
