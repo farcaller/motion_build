@@ -2,10 +2,16 @@ module MotionBuild ; module Rules
 
   class BuildProjectRule < MotionBuild::Rule
     def active?
-      File.mtime(project.config.get(:project_config)) < File.mtime(project.config.get(:build_dir))
+      File.mtime(project.config.get(:project_config)) >= File.mtime(project.config.get(:build_dir))
+    end
+
+    def pre_dependencies
+      FileUtils.mkdir_p(project.config.get(:build_dir)) unless File.exists?(project.config.get(:build_dir))
+      self.forced = active?
     end
 
     def run
+      FileUtils.touch(project.config.get(:build_dir))
       # XXX action! if project file is newer than :build_dir
 
       # prepare bridge support files

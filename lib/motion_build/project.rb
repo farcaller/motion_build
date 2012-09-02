@@ -20,9 +20,7 @@ module MotionBuild
       @config.override(:project_config, "motion.thor")
       @config.override(:name, @name)
 
-      FileUtils.mkdir_p(@config.get(:build_dir)) unless File.exists?(@config.get(:build_dir))
       @root_rule = Rules::BuildProjectRule.new(self)
-
       @root_rule.action
     end
   end
