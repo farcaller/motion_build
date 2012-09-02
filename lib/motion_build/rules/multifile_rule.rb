@@ -14,11 +14,11 @@ module MotionBuild ; module Rules
     end
 
     def active?
-      return true unless source # run if we have no source
+      return true unless sources # run if we have no source
       return true unless destination # run if we have no destination
       return true unless File.exist?(destination) # run if destination file doesn't exist
 
-      sources.each { |src| return true if File.mtime(src) <= File.mtime(destination) }
+      return true if sources.map { |src| true if File.mtime(src) > File.mtime(destination) }.first
       
       false
     end
