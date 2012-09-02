@@ -53,6 +53,12 @@ module MotionBuild ; module Rules
 
       prepare_bundle = PrepareBundleRule.new(project, project.config.get(:name))
       dependencies << prepare_bundle
+
+      link_executable = LinkObjectsRule.new(project,
+        compile_rules.map { |r| r.destination } + [compile_init_file.destination, compile_main_file.destination],
+        File.join(prepare_bundle.bundle_path, project.config.get(:name)))
+
+      dependencies << link_executable
     end
 
     def bs_files
