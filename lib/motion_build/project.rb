@@ -21,15 +21,9 @@ module MotionBuild
       @config.override(:name, @name)
 
       FileUtils.mkdir_p(@config.get(:build_dir)) unless File.exists?(@config.get(:build_dir))
-
       @root_rule = Rules::BuildProjectRule.new(self)
 
-      if File.mtime(@config.get(:project_config)) < File.mtime(@config.get(:build_dir))
-        @root_rule.action
-      else
-        puts "force start"
-        @root_rule.action!
-      end
+      @root_rule.action
     end
   end
 end

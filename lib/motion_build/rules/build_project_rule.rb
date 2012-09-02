@@ -2,7 +2,7 @@ module MotionBuild ; module Rules
 
   class BuildProjectRule < MotionBuild::Rule
     def active?
-      true
+      File.mtime(project.config.get(:project_config)) < File.mtime(project.config.get(:build_dir))
     end
 
     def run
