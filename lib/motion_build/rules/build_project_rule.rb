@@ -65,6 +65,9 @@ module MotionBuild ; module Rules
         File.join(prepare_bundle.bundle_path, project.config.get(:name)))
 
       dependencies << link_executable
+
+      plist_rule = RenderPlistRule.new(project, project.info_plist, File.join(prepare_bundle.bundle_path, 'Info.plist'), :binary)
+      dependencies << plist_rule
     end
 
     def bs_files

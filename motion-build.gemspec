@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Motion::Build::VERSION
 
   gem.add_development_dependency 'rspec'
+  gem.add_runtime_dependency 'CFPropertyList'
   gem.add_runtime_dependency 'uuidtools'
   gem.add_runtime_dependency 'term-ansicolor'
 end
