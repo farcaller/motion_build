@@ -7,6 +7,6 @@ class RubyMotion < Thor
   def build
     p = MotionBuild::Project.new("DefaultProject")
     p.sources = Dir.glob('app/**/*.rb').map { |fn| File.absolute_path(fn) }
-    p.build
+    Pry::rescue { p.build }
   end
 end
