@@ -40,7 +40,7 @@ module MotionBuild ; module Rules
       dependencies.concat(compile_rules)
 
 
-      init_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'init.mm.erb'), nil) do |rule, ctx|
+      init_file = RenderErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'init.mm.erb'), nil) do |rule, ctx|
         rule.context = { init_functions: compile_rules.map { |r| r.init_func_name } }
       end
 
@@ -50,7 +50,7 @@ module MotionBuild ; module Rules
       dependencies << compile_init_file
 
 
-      main_file = CompileErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'main.mm.erb'), {})
+      main_file = RenderErbFileRule.new(project, File.join(File.dirname(__FILE__), '..', '..', '..', 'assets', 'main.mm.erb'), {})
       # TODO: fix the hash
 
       compile_main_file = CompileClangSourceRule.build(project, main_file.destination)

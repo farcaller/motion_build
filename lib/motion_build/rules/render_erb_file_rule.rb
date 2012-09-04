@@ -2,7 +2,7 @@ require 'erb'
 
 module MotionBuild ; module Rules
 
-  class CompileErbFileRule < MotionBuild::FileRule
+  class RenderErbFileRule < MotionBuild::FileRule
     attr_accessor :context
 
     def input_extension
